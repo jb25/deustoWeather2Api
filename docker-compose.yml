@@ -1,0 +1,21 @@
+version: '1'
+
+services:
+  mongodb_weather_election:
+    image: mongo:latest
+    restart: always
+    container_name: "mongodb_weather_election"
+    ports:
+      - "27018:27017"
+# First node of the first Tomcat virtual host.
+  tomcat:
+    restart: always
+    image: tomcat
+    ports:
+      - "8091:8080"
+    volumes:
+      - ../deustoWeather2/target/zalando.deusto-0.0.1-SNAPSHOT.war:/usr/local/tomcat/apache-tomcat-8.5.24/zalando.deusto-1.0.1-SNAPSHOT.war
+    links:
+      - mongodb_weather_election:mongodb_weather_election
+    #depends_on:
+     # - "db"
